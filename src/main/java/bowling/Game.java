@@ -5,12 +5,12 @@ package bowling;
  */
 @SuppressWarnings("WeakerAccess")
 public class Game {
-    private int itsCurrentFrame = 1;
+    private int itsCurrentFrame = 0;
     private boolean firstThrowInFrame = true;
     private Scorer itsScorer = new Scorer();
 
     public int score() {
-        return scoreForFrame(getCurrentFrame() - 1);
+        return scoreForFrame(itsCurrentFrame);
     }
 
     public void add(int pins) {
@@ -20,34 +20,26 @@ public class Game {
 
     // 맞추다. 조정하다
     private void adjustCurrentFrame(int pins) {
-        if (firstThrowInFrame) {
-            if (!adjustFrameForStrike(pins)) {
-                firstThrowInFrame = false;
-            }
-        } else {
-            firstThrowInFrame = true;
+        if (lastBallInFrame(pins)) {
             advanceFrame();
+        } else {
+            firstThrowInFrame = false;
         }
     }
 
-    private boolean adjustFrameForStrike(int pins) {
-        if (pins == 10) {
-            advanceFrame();
-            return true;
-        }
-        return false;
+    private boolean lastBallInFrame(int pins) {
+        return strike(pins) || !firstThrowInFrame;
+    }
+
+    private boolean strike(int pins) {
+        return firstThrowInFrame && pins == 10;
     }
 
     private void advanceFrame() {
-        itsCurrentFrame = Math.min(11, itsCurrentFrame + 1);
+        itsCurrentFrame = Math.min(10, itsCurrentFrame + 1);
     }
 
     public int scoreForFrame(int theFrame) {
         return itsScorer.scoreForFrame(theFrame);
-    }
-
-
-    public int getCurrentFrame() {
-        return itsCurrentFrame;
     }
 }

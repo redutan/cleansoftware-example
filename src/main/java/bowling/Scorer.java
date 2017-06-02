@@ -6,7 +6,6 @@ package bowling;
 @SuppressWarnings("WeakerAccess")
 public class Scorer {
     private int ball;
-
     private int[] itsThrows = new int[21];
     private int itsCurrentThrow = 0;
 
