@@ -21,17 +21,25 @@ public class Game {
     // 맞추다. 조정하다
     private void adjustCurrentFrame(int pins) {
         if (firstThrowInFrame) {
-            // 스트라이크
-            if (pins == 10) {
-                itsCurrentFrame++;
-            } else {
+            if (!adjustFrameForStrike(pins)) {
                 firstThrowInFrame = false;
             }
         } else {
             firstThrowInFrame = true;
-            itsCurrentFrame++;
+            advanceFrame();
         }
-        itsCurrentFrame = Math.min(11, itsCurrentFrame);
+    }
+
+    private boolean adjustFrameForStrike(int pins) {
+        if (pins == 10) {
+            advanceFrame();
+            return true;
+        }
+        return false;
+    }
+
+    private void advanceFrame() {
+        itsCurrentFrame = Math.min(11, itsCurrentFrame + 1);
     }
 
     public int scoreForFrame(int theFrame) {
