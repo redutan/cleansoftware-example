@@ -7,9 +7,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import payday.PaydayApplication;
 import payday.employee.*;
-import payday.employee.classification.SalariedClassification;
+import payday.employee.classification.CommissionedClassification;
 import payday.employee.method.HoldMethod;
-import payday.employee.schedule.MonthlySchedule;
+import payday.employee.schedule.BiWeaklySchedule;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
@@ -19,24 +19,25 @@ import static org.junit.Assert.assertThat;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = PaydayApplication.class)
-public class AddSalariedEmployeeTest {
+public class AddCommissionedEmployeeTest {
     @Autowired
     private EmployeeRepository employeeRepository;
 
     @Test
-    public void testAddSalariedEmployee() throws Exception {
+    public void testAddCommissionedEmployee() throws Exception {
         // given
-        final Integer empId = 1;
-        final String name = "Bob";
-        final String address = "Home";
+        final Integer empId = 3;
+        final String name = "Robert";
+        final String address = "Office Address";
         final double salary = 10000.00D;
-        AddSalariedEmployee t = new AddSalariedEmployee(empId, name, address, salary);
+        final double commissionRate = 0.1D;
+        AddCommissionedEmployee t = new AddCommissionedEmployee(empId, name, address, salary, commissionRate);
         // when
         t.execute();
         // then
         Employee e = employeeRepository.findOne(empId);
         assertEmployee(e, name, address);
-        assertClassification(e.getClassification(), salary);
+        assertClassification(e.getClassification(), salary, commissionRate);
         assertSchedule(e.getSchedule());
         assertMethod(e.getMethod());
     }
@@ -47,16 +48,17 @@ public class AddSalariedEmployeeTest {
         assertThat(e.getAddress(), is(address));
     }
 
-    private void assertClassification(PaymentClassification pc, double salary) {
+    private void assertClassification(PaymentClassification pc, double salary, double commissionRate) {
         assertThat(pc, is(notNullValue()));
-        assertThat(pc, instanceOf(SalariedClassification.class));
-        SalariedClassification sc = SalariedClassification.class.cast(pc);
-        assertThat(sc.getSalary(), is(salary));
+        assertThat(pc, instanceOf(CommissionedClassification.class));
+        CommissionedClassification cc = CommissionedClassification.class.cast(pc);
+        assertThat(cc.getSalary(), is(salary));
+        assertThat(cc.getCommissionRate(), is(commissionRate));
     }
 
     private void assertSchedule(PaymentSchedule ps) {
         assertThat(ps, is(notNullValue()));
-        assertThat(ps, instanceOf(MonthlySchedule.class));
+        assertThat(ps, instanceOf(BiWeaklySchedule.class));
     }
 
     private void assertMethod(PaymentMethod pm) {
