@@ -121,18 +121,50 @@ ChgEmp <직원번호> NoMember                                 // 직원을 조�
 
 * 이 트랜잭션의 구자가 정상적이지 않거나 `<직원번호>`가 실제 직원을 가리키지 않건 `<조합원번호>`가 이미 조합원을 가리키고 있다면, 적당한 에러를 출력하고 더 이상의 동작을 취하지 않는다.
 
+### 요구사항 정제
+
 * *새 직원 추가하기 에서 만든 `Employee` 설계가 잘못된 거 같다*
-* *`Employee`는 파생이 아니라 각각의 상황에 맞는 `PaymentClassification`으로 구성된다.
+* `Employee`는 파생이 아니라 각각의 상황에 맞는 `PaymentClassification`으로 구성된다.
     * `Hourly` : 시급
     * `Salaried` : 월급 
     * `Commissioned` : 월급 + 수수료
-* *또한 `Employee`는 각각의 상황에 맞는 `PaymentMethod`으로 구성된다.
+* `Employee`는 각각의 상황에 맞는 `PaymentMethod`으로 구성된다.
     * `Hold` : 급여 담당자에게 지급 받음
     * `Direct` : 직접 은행으로 지급 받음
     * `Mail` : 우편으로 지급 받음
-* `Employee`는 조합원과 합성관계
-    * 조합원 아님 : 널오브젝트
-    * 조합원 : with 조합비 비율
+* `Employee`는 각각의 상황에 맞는 `Affiliation`으로 구성된다.
+    * `No` : 조합원 아님 - 널오브젝트
+    * `Union` : 조합원 with 조합비 비율
 
+### 핵심 모델
 
+![급여 관리의 수정된 클래스 다이어그램(핵심 모델)](https://dooray.com/plantuml/img/dPBTJiCm38NlynJHBYjruW7G95IGk1b20nx0IrngaIPJuavKY7SdNTUirGf3orL-lcFds2RBw4jGA9-XhT7o6hboMYW38SX7PtH_8QdU6Uo0C4lUaqV55rZv9MHS-HRiHxy3fLnZMNmVmwo1p3-3WDOUGqZIXyYx5b5CwTiyEpt1Dh07nRAN7CcYEr192fYSJTORRzhfayHFHgj_4GuVgmxA3J36lys6oV9y9HStosMsaAzKOm5-gECB6F24-fh4eTEsgI25gskAcBFNXLD9V_0oJV57yB6xQ0V31XNIZiNGXjYJs9JvubEQnxko94FZbZovqTruFixHDnltb-d1gcwm6wGprSGA-ZqfB2hmxtZoaaLYdFy7)
 
+## 임금지급일
+
+`Payday` 트랜잭션을 받으면 시스템은 지정된 날짜에 입금을 받아야 할 직원을 모두 가려낸다. 그리고 이들이 얼마의 액수를 받아야 하는지 결정하고, 이들이 선택한 지급 방식으로 임금을 지급한다.
+
+```
+Payday <날짜>
+```
+
+![어떤 직원의 임금 계산](https://dooray.com/plantuml/img/2qYiJ4ci32bAp2jEJ2x9pCzJqBLJSCqjoCclJ4rLi58e0CjpWUJA4ajIuL9SS3L0zG69bRcfUINEEOd5nPbfcSc9O8Ei598JSv9BSu3Q0f2DmAeQOPwDhYuE9Icfn9g1S9DlQab6VWh48nXEW4XYjHegXMabL2808zn0ck6XWwGFBWO0)
+
+## 잠재적인 추상화를 찾아서
+
+### 요구사항 예시
+
+**특수화**
+
+* 몇몇 직원은 시간제로 일한다.
+* 몇몇 직원은 고정된 월급을 받는다.
+* 몇몇 ... 직원은 수수료를 받는다.
+
+**일반화** : `PaymentClassification`
+
+* 모든 직원은 임금을 받는다.
+
+## 결론
+
+* UML은 설계가 아니다. 설계를 위한 가이드일 뿐이다. 진짜 설계는 테스트와 코드이다.
+* 유스케이스는 설계를 시작하는 과정일 뿐이고 실제 설계와 구현을 병행하면서 완성시켜야 한다. 
