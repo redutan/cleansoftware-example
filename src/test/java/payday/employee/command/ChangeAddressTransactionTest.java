@@ -32,8 +32,8 @@ public class ChangeAddressTransactionTest {
         ChangeAddressTransaction cnt = new ChangeAddressTransaction(empId, newAddress);
         cnt.execute();
         // then
-        Employee modifed = employeeRepository.findOne(empId);
-        assertThat(modifed, is(notNullValue()));
-        assertThat(modifed.getAddress(), is(newAddress));
+        Employee modified = employeeRepository.findOne(empId);
+        assertThat(modified, is(notNullValue()));
+        assertThat(modified.getAddress(), is(newAddress));
     }
 }

@@ -32,8 +32,8 @@ public class ChangeNameTransactionTest {
         ChangeNameTransaction cnt = new ChangeNameTransaction(empId, newName);
         cnt.execute();
         // then
-        Employee modifed = employeeRepository.findOne(empId);
-        assertThat(modifed, is(notNullValue()));
-        assertThat(modifed.getName(), is(newName));
+        Employee modified = employeeRepository.findOne(empId);
+        assertThat(modified, is(notNullValue()));
+        assertThat(modified.getName(), is(newName));
     }
 }
