@@ -39,4 +39,16 @@ public class Employee {
         this.schedule = ps;
         this.method = pm;
     }
+
+    public <T extends AbstractPaymentClassification> T getClassification(Class<T> tClass) {
+        return tClass.cast(this.classification);
+    }
+
+    public <T extends AbstractPaymentSchedule> T getSchedule(Class<T> tClass) {
+        return tClass.cast(this.schedule);
+    }
+
+    public <T extends AbstractPaymentMethod> T getMethod(Class<T> tClass) {
+        return tClass.cast(this.method);
+    }
 }

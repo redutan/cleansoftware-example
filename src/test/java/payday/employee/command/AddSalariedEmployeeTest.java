@@ -7,12 +7,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import payday.PaydayApplication;
-import payday.employee.*;
+import payday.employee.Employee;
+import payday.employee.EmployeeRepository;
 import payday.employee.classification.SalariedClassification;
 import payday.employee.method.HoldMethod;
 import payday.employee.schedule.MonthlySchedule;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -38,9 +40,9 @@ public class AddSalariedEmployeeTest {
         // then
         Employee e = employeeRepository.findOne(empId);
         assertEmployee(e, name, address);
-        assertClassification(e.getClassification(), salary);
-        assertSchedule(e.getSchedule());
-        assertMethod(e.getMethod());
+        assertClassification(e.getClassification(SalariedClassification.class), salary);
+        assertSchedule(e.getSchedule(MonthlySchedule.class));
+        assertMethod(e.getMethod(HoldMethod.class));
     }
 
     private void assertEmployee(Employee e, String name, String address) {
@@ -49,20 +51,16 @@ public class AddSalariedEmployeeTest {
         assertThat(e.getAddress(), is(address));
     }
 
-    private void assertClassification(PaymentClassification pc, double salary) {
-        assertThat(pc, is(notNullValue()));
-        assertThat(pc, instanceOf(SalariedClassification.class));
-        SalariedClassification sc = SalariedClassification.class.cast(pc);
-        assertThat(sc.getSalary(), is(salary));
+    private void assertClassification(SalariedClassification c, double salary) {
+        assertThat(c, is(notNullValue()));
+        assertThat(c.getSalary(), is(salary));
     }
 
-    private void assertSchedule(PaymentSchedule ps) {
-        assertThat(ps, is(notNullValue()));
-        assertThat(ps, instanceOf(MonthlySchedule.class));
+    private void assertSchedule(MonthlySchedule s) {
+        assertThat(s, is(notNullValue()));
     }
 
-    private void assertMethod(PaymentMethod pm) {
-        assertThat(pm, is(notNullValue()));
-        assertThat(pm, instanceOf(HoldMethod.class));
+    private void assertMethod(HoldMethod m) {
+        assertThat(m, is(notNullValue()));
     }
 }

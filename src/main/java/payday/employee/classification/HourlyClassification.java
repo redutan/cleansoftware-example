@@ -21,4 +21,9 @@ public class HourlyClassification extends AbstractPaymentClassification {
         super();
         this.hourlyWage = hourlyWage;
     }
+
+    public TimeCard getTimeCard(long timeMillis) {
+        // TODO
+        return null;
+    }
 }

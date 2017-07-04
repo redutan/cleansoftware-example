@@ -7,12 +7,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import payday.PaydayApplication;
-import payday.employee.*;
+import payday.employee.Employee;
+import payday.employee.EmployeeRepository;
 import payday.employee.classification.HourlyClassification;
 import payday.employee.method.HoldMethod;
 import payday.employee.schedule.WeaklySchedule;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -38,9 +40,9 @@ public class AddHourlyEmployeeTest {
         // then
         Employee e = employeeRepository.findOne(empId);
         assertEmployee(e, name, address);
-        assertClassification(e.getClassification(), hourlyWage);
-        assertSchedule(e.getSchedule());
-        assertMethod(e.getMethod());
+        assertClassification(e.getClassification(HourlyClassification.class), hourlyWage);
+        assertSchedule(e.getSchedule(WeaklySchedule.class));
+        assertMethod(e.getMethod(HoldMethod.class));
     }
 
     private void assertEmployee(Employee e, String name, String address) {
@@ -49,20 +51,16 @@ public class AddHourlyEmployeeTest {
         assertThat(e.getAddress(), is(address));
     }
 
-    private void assertClassification(PaymentClassification pc, double hourlyWage) {
-        assertThat(pc, is(notNullValue()));
-        assertThat(pc, instanceOf(HourlyClassification.class));
-        HourlyClassification sc = HourlyClassification.class.cast(pc);
-        assertThat(sc.getHourlyWage(), is(hourlyWage));
+    private void assertClassification(HourlyClassification c, double hourlyWage) {
+        assertThat(c, is(notNullValue()));
+        assertThat(c.getHourlyWage(), is(hourlyWage));
     }
 
-    private void assertSchedule(PaymentSchedule ps) {
-        assertThat(ps, is(notNullValue()));
-        assertThat(ps, instanceOf(WeaklySchedule.class));
+    private void assertSchedule(WeaklySchedule s) {
+        assertThat(s, is(notNullValue()));
     }
 
-    private void assertMethod(PaymentMethod pm) {
-        assertThat(pm, is(notNullValue()));
-        assertThat(pm, instanceOf(HoldMethod.class));
+    private void assertMethod(HoldMethod m) {
+        assertThat(m, is(notNullValue()));
     }
 }

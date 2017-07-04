@@ -26,7 +26,7 @@ public class DeleteEmployeeTransactionTest {
     @Test
     public void testDeleteEmployee() throws Exception {
         // given
-        final Integer empId = 3;
+        final Integer empId = 4;
         AddCommissionedEmployee t = new AddCommissionedEmployee(empId, "Lance", "Home", 2500, 3.2);
         t.execute();
         // when
