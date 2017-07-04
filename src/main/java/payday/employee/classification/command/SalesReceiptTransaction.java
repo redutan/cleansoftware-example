@@ -10,6 +10,8 @@ import payday.employee.EmployeeRepository;
 import payday.employee.classification.CommissionedClassification;
 import payday.employee.classification.SalesReceipt;
 
+import java.util.Optional;
+
 @SuppressWarnings("SpringAutowiredFieldsWarningInspection")
 @Configurable
 public class SalesReceiptTransaction implements Transaction {
@@ -27,10 +29,8 @@ public class SalesReceiptTransaction implements Transaction {
 
     @Override
     public void execute() {
-        Employee e = employeeRepository.findOne(empId);
-        if (e == null) {
-            throw new IllegalArgumentException("Not found employee : " + empId);
-        }
+        Employee e = Optional.ofNullable(employeeRepository.findOne(empId))
+            .orElseThrow(() -> new IllegalArgumentException("Not found employee : " + empId));
         try {
             CommissionedClassification cc = e.getClassification(CommissionedClassification.class);
             cc.addSalesReceipt(new SalesReceipt(timeMillis, amount));

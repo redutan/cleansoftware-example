@@ -2,6 +2,7 @@ package payday.employee.classification;
 
 import lombok.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -21,7 +22,7 @@ public class CommissionedClassification extends AbstractPaymentClassification {
     private double salary;
     private double commissionRate;
     @Getter(AccessLevel.PACKAGE)
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<SalesReceipt> salesReceipts = new ArrayList<>();
 
     public CommissionedClassification(double salary, double commissionRate) {

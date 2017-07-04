@@ -1,6 +1,8 @@
 package payday.employee;
 
 import lombok.*;
+import payday.employee.affiliation.AbstractAffiliation;
+import payday.employee.affiliation.Affiliation;
 import payday.employee.classification.AbstractPaymentClassification;
 import payday.employee.method.AbstractPaymentMethod;
 import payday.employee.schedule.AbstractPaymentSchedule;
@@ -9,6 +11,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import java.util.Optional;
 
 /**
  * @author myeongju.jung
@@ -29,6 +32,8 @@ public class Employee {
     private AbstractPaymentSchedule schedule;
     @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
     private AbstractPaymentMethod method;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private AbstractAffiliation affiliation;
 
     public Employee(@NonNull Integer empId, @NonNull String name, @NonNull String address,
                     @NonNull AbstractPaymentClassification pc, @NonNull AbstractPaymentSchedule ps, @NonNull AbstractPaymentMethod pm) {
@@ -50,5 +55,22 @@ public class Employee {
 
     public <T extends AbstractPaymentMethod> T getMethod(Class<T> tClass) {
         return tClass.cast(this.method);
+    }
+
+    public Affiliation getAffiliation() {
+        return Optional.ofNullable(this.affiliation)
+            .orElse(AbstractAffiliation.NONE);
+    }
+
+    public <T extends Affiliation> T getAffiliation(Class<T> tClass) {
+        Affiliation result = getAffiliation();
+        if (result == AbstractAffiliation.NONE) {
+            throw new IllegalStateException("affiliation is none");
+        }
+        return tClass.cast(result);
+    }
+
+    public void setAffiliation(AbstractAffiliation af) {
+        this.affiliation = af;
     }
 }
