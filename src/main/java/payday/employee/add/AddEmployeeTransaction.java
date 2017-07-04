@@ -2,7 +2,6 @@ package payday.employee.add;
 
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.transaction.annotation.Transactional;
 import payday.Transaction;
 import payday.employee.Employee;
@@ -16,7 +15,6 @@ import payday.employee.schedule.AbstractPaymentSchedule;
  * @author myeongju.jung
  */
 @SuppressWarnings("SpringAutowiredFieldsWarningInspection")
-@Configurable(dependencyCheck = true)
 public abstract class AddEmployeeTransaction implements Transaction {
     private Integer empId;
     private String name;
@@ -25,11 +23,10 @@ public abstract class AddEmployeeTransaction implements Transaction {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    AddEmployeeTransaction() {
-    }
-
     AddEmployeeTransaction(@NonNull Integer empId, @NonNull String name, @NonNull String address) {
-        set(empId, name, address);
+        this.empId = empId;
+        this.name = name;
+        this.address = address;
     }
 
     @Transactional
@@ -45,10 +42,4 @@ public abstract class AddEmployeeTransaction implements Transaction {
     abstract AbstractPaymentSchedule getSchedule();
 
     abstract AbstractPaymentClassification getClassification();
-
-    void set(@NonNull Integer empId, @NonNull String name, @NonNull String address) {
-        this.empId = empId;
-        this.name = name;
-        this.address = address;
-    }
 }

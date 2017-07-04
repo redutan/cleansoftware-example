@@ -4,7 +4,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import payday.PaydayApplication;
 import payday.employee.*;
 import payday.employee.classification.SalariedClassification;
 import payday.employee.method.HoldMethod;
@@ -18,6 +20,7 @@ import static org.junit.Assert.assertThat;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@ContextConfiguration(classes = PaydayApplication.class)
 public class AddSalariedEmployeeTest {
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -26,27 +29,39 @@ public class AddSalariedEmployeeTest {
     public void testAddSalariedEmployee() throws Exception {
         // given
         final int empId = 1;
-        String name = "Bob";
+        final String name = "Bob";
+        final String address = "Home";
         final double salary = 1000.00D;
-        AddSalariedEmployee t = new AddSalariedEmployee(empId, name, "Home", salary);
+        AddSalariedEmployee t = new AddSalariedEmployee(empId, name, address, salary);
         // when
         t.execute();
         // then
         Employee e = employeeRepository.findOne(empId);
+        assertEmployee(e, name, address);
+        assertClassification(e.getClassification(), salary);
+        assertSchedule(e.getSchedule());
+        assertMethod(e.getMethod());
+    }
+
+    private void assertEmployee(Employee e, String name, String address) {
         assertThat(e, is(notNullValue()));
         assertThat(e.getName(), is(name));
+        assertThat(e.getAddress(), is(address));
+    }
 
-        PaymentClassification pc = e.getClassification();
+    private void assertClassification(PaymentClassification pc, double salary) {
         assertThat(pc, is(notNullValue()));
         assertThat(pc, instanceOf(SalariedClassification.class));
         SalariedClassification sc = SalariedClassification.class.cast(pc);
         assertThat(sc.getSalary(), is(salary));
+    }
 
-        PaymentSchedule ps = e.getSchedule();
+    private void assertSchedule(PaymentSchedule ps) {
         assertThat(ps, is(notNullValue()));
         assertThat(ps, instanceOf(MonthlySchedule.class));
+    }
 
-        PaymentMethod pm = e.getMethod();
+    private void assertMethod(PaymentMethod pm) {
         assertThat(pm, is(notNullValue()));
         assertThat(pm, instanceOf(HoldMethod.class));
     }

@@ -3,10 +3,12 @@ package payday.employee.classification;
 import lombok.*;
 
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 /**
  * @author myeongju.jung
  */
+@Entity
 @DiscriminatorValue("S")
 @Getter
 @ToString

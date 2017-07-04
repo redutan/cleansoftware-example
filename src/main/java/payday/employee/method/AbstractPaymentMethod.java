@@ -5,19 +5,19 @@ import lombok.Getter;
 import lombok.ToString;
 import payday.employee.PaymentMethod;
 
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * @author myeongju.jung
  */
 @Entity
+@Inheritance
 @DiscriminatorColumn
 @Getter
 @ToString
 @EqualsAndHashCode
 public class AbstractPaymentMethod implements PaymentMethod {
     @Id
+    @GeneratedValue
     private Integer methodId;
 }
