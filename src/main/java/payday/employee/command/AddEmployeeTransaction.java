@@ -1,4 +1,4 @@
-package payday.employee.add;
+package payday.employee.command;
 
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;

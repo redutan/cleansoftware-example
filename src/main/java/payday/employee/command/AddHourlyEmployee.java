@@ -1,4 +1,4 @@
-package payday.employee.add;
+package payday.employee.command;
 
 import org.springframework.beans.factory.annotation.Configurable;
 import payday.employee.classification.AbstractPaymentClassification;

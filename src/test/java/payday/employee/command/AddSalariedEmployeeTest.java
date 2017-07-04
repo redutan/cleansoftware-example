@@ -1,15 +1,16 @@
-package payday.employee.add;
+package payday.employee.command;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 import payday.PaydayApplication;
 import payday.employee.*;
-import payday.employee.classification.HourlyClassification;
+import payday.employee.classification.SalariedClassification;
 import payday.employee.method.HoldMethod;
-import payday.employee.schedule.WeaklySchedule;
+import payday.employee.schedule.MonthlySchedule;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
@@ -19,24 +20,25 @@ import static org.junit.Assert.assertThat;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = PaydayApplication.class)
-public class AddHourlyEmployeeTest {
+@Transactional
+public class AddSalariedEmployeeTest {
     @Autowired
     private EmployeeRepository employeeRepository;
 
     @Test
-    public void testAddHourlyEmployee() throws Exception {
+    public void testAddSalariedEmployee() throws Exception {
         // given
-        final Integer empId = 2;
-        final String name = "Steve";
-        final String address = "Home Address";
-        final double hourlyWage = 100.00D;
-        AddHourlyEmployee t = new AddHourlyEmployee(empId, name, address, hourlyWage);
+        final Integer empId = 1;
+        final String name = "Bob";
+        final String address = "Home";
+        final double salary = 10000.00D;
+        AddSalariedEmployee t = new AddSalariedEmployee(empId, name, address, salary);
         // when
         t.execute();
         // then
         Employee e = employeeRepository.findOne(empId);
         assertEmployee(e, name, address);
-        assertClassification(e.getClassification(), hourlyWage);
+        assertClassification(e.getClassification(), salary);
         assertSchedule(e.getSchedule());
         assertMethod(e.getMethod());
     }
@@ -47,16 +49,16 @@ public class AddHourlyEmployeeTest {
         assertThat(e.getAddress(), is(address));
     }
 
-    private void assertClassification(PaymentClassification pc, double hourlyWage) {
+    private void assertClassification(PaymentClassification pc, double salary) {
         assertThat(pc, is(notNullValue()));
-        assertThat(pc, instanceOf(HourlyClassification.class));
-        HourlyClassification sc = HourlyClassification.class.cast(pc);
-        assertThat(sc.getHourlyWage(), is(hourlyWage));
+        assertThat(pc, instanceOf(SalariedClassification.class));
+        SalariedClassification sc = SalariedClassification.class.cast(pc);
+        assertThat(sc.getSalary(), is(salary));
     }
 
     private void assertSchedule(PaymentSchedule ps) {
         assertThat(ps, is(notNullValue()));
-        assertThat(ps, instanceOf(WeaklySchedule.class));
+        assertThat(ps, instanceOf(MonthlySchedule.class));
     }
 
     private void assertMethod(PaymentMethod pm) {
