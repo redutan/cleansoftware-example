@@ -24,6 +24,7 @@ import java.util.Optional;
 public class Employee {
     @Id
     private Integer empId;
+    @Setter
     private String name;
     private String address;
     @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
