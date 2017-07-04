@@ -33,7 +33,7 @@ public class TimeCardTransaction implements Transaction {
     public void execute() {
         Employee e = employeeRepository.findOne(empId);
         if (e == null) {
-            throw new IllegalStateException("Not found employee : " + empId);
+            throw new IllegalArgumentException("Not found employee : " + empId);
         }
         try {
             HourlyClassification hc = e.getClassification(HourlyClassification.class);
