@@ -16,9 +16,9 @@ import payday.employee.schedule.AbstractPaymentSchedule;
  */
 @SuppressWarnings("SpringAutowiredFieldsWarningInspection")
 public abstract class AddEmployeeTransaction implements Transaction {
-    private Integer empId;
-    private String name;
-    private String address;
+    private final Integer empId;
+    private final String name;
+    private final String address;
 
     @Autowired
     private EmployeeRepository employeeRepository;
