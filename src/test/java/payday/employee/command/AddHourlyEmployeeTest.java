@@ -53,7 +53,7 @@ public class AddHourlyEmployeeTest {
 
     private void assertClassification(HourlyClassification c, double hourlyWage) {
         assertThat(c, is(notNullValue()));
-        assertThat(c.getHourlyWage(), is(hourlyWage));
+        assertThat(c.getRate(), is(hourlyWage));
     }
 
     private void assertSchedule(WeaklySchedule s) {

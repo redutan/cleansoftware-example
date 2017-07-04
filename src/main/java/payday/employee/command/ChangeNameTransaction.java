@@ -10,8 +10,9 @@ public class ChangeNameTransaction extends ChangeEmployeeTransaction {
         super(empId);
         this.name = name;
     }
+
     @Override
-    void change(Employee e) {
+    protected void change(Employee e) {
         e.setName(name);
     }
 }

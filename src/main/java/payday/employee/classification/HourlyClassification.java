@@ -19,13 +19,13 @@ import java.util.Collection;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class HourlyClassification extends AbstractPaymentClassification {
-    private double hourlyWage;
+    private double rate;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<TimeCard> timeCards = new ArrayList<>();
 
-    public HourlyClassification(double hourlyWage) {
+    public HourlyClassification(double rate) {
         super();
-        this.hourlyWage = hourlyWage;
+        this.rate = rate;
     }
 
     public TimeCard getTimeCard(long timeMillis) {

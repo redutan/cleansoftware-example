@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @SuppressWarnings("SpringAutowiredFieldsWarningInspection")
 @Configurable
-abstract class ChangeEmployeeTransaction implements Transaction{
+public abstract class ChangeEmployeeTransaction implements Transaction{
     private final Integer empId;
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -28,5 +28,5 @@ abstract class ChangeEmployeeTransaction implements Transaction{
         change(e);
     }
 
-    abstract void change(Employee e);
+    protected abstract void change(Employee e);
 }

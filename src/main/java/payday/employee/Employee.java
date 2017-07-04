@@ -28,8 +28,10 @@ public class Employee {
     private String name;
     @Setter
     private String address;
+    @Setter
     @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
     private AbstractPaymentClassification classification;
+    @Setter
     @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
     private AbstractPaymentSchedule schedule;
     @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
