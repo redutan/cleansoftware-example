@@ -24,7 +24,7 @@ public class ChangeEmployeeTest {
     @Test
     public void testChangeName() throws Exception {
         // given
-        final Integer empId = 2;
+        final Integer empId = 1;
         AddHourlyEmployee t = new AddHourlyEmployee(empId, "Bill", "Home", 15.25);
         t.execute();
         final String newName = "Bob";
@@ -35,5 +35,21 @@ public class ChangeEmployeeTest {
         Employee modifed = employeeRepository.findOne(empId);
         assertThat(modifed, is(notNullValue()));
         assertThat(modifed.getName(), is(newName));
+    }
+
+    @Test
+    public void testChangeAddress() throws Exception {
+        // given
+        final Integer empId = 2;
+        AddHourlyEmployee t = new AddHourlyEmployee(empId, "Bill", "Home", 15.25);
+        t.execute();
+        final String newAddress = "Office";
+        // when
+        ChangeAddressTransaction cnt = new ChangeAddressTransaction(empId, newAddress);
+        cnt.execute();
+        // then
+        Employee modifed = employeeRepository.findOne(empId);
+        assertThat(modifed, is(notNullValue()));
+        assertThat(modifed.getAddress(), is(newAddress));
     }
 }

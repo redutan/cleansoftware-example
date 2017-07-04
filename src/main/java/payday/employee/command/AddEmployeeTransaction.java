@@ -2,6 +2,7 @@ package payday.employee.command;
 
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.transaction.annotation.Transactional;
 import payday.Transaction;
 import payday.employee.Employee;
@@ -15,6 +16,7 @@ import payday.employee.schedule.AbstractPaymentSchedule;
  * @author myeongju.jung
  */
 @SuppressWarnings("SpringAutowiredFieldsWarningInspection")
+@Configurable
 public abstract class AddEmployeeTransaction implements Transaction {
     private final Integer empId;
     private final String name;

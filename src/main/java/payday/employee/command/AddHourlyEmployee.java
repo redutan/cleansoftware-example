@@ -1,6 +1,5 @@
 package payday.employee.command;
 
-import org.springframework.beans.factory.annotation.Configurable;
 import payday.employee.classification.AbstractPaymentClassification;
 import payday.employee.classification.HourlyClassification;
 import payday.employee.schedule.AbstractPaymentSchedule;
@@ -9,7 +8,6 @@ import payday.employee.schedule.WeaklySchedule;
 /**
  * @author myeongju.jung
  */
-@Configurable
 public class AddHourlyEmployee extends AddEmployeeTransaction {
     private final double hourlyWage;
 
