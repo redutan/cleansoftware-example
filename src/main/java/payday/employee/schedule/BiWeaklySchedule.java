@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import java.util.Date;
 
 /**
  * @author myeongju.jung
@@ -18,4 +19,8 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class BiWeaklySchedule extends AbstractPaymentSchedule {
+    @Override
+    public boolean isPayDate(Date payDate) {
+        return false;
+    }
 }

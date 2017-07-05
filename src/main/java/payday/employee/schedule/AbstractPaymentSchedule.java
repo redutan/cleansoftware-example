@@ -16,7 +16,7 @@ import javax.persistence.*;
 @Getter
 @ToString
 @EqualsAndHashCode
-public class AbstractPaymentSchedule implements PaymentSchedule {
+public abstract class AbstractPaymentSchedule implements PaymentSchedule {
     @Id
     @GeneratedValue
     private Integer scheduleId;

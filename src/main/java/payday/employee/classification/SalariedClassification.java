@@ -1,6 +1,7 @@
 package payday.employee.classification;
 
 import lombok.*;
+import payday.Paycheck;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -19,5 +20,10 @@ public class SalariedClassification extends AbstractPaymentClassification {
 
     public SalariedClassification(double salary) {
         this.salary = salary;
+    }
+
+    @Override
+    public double calculatePay(Paycheck pc) {
+        return salary;
     }
 }

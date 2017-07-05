@@ -1,6 +1,7 @@
 package payday.employee;
 
 import lombok.*;
+import payday.Paycheck;
 import payday.employee.affiliation.AbstractAffiliation;
 import payday.employee.affiliation.Affiliation;
 import payday.employee.classification.AbstractPaymentClassification;
@@ -11,6 +12,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -77,5 +79,18 @@ public class Employee {
 
     public void setAffiliation(AbstractAffiliation af) {
         this.affiliation = af;
+    }
+
+    public boolean isPayDate(Date payDate) {
+        return getSchedule().isPayDate(payDate);
+    }
+
+    public Paycheck payday(@NonNull Date payDate) {
+        Paycheck pc = new Paycheck(payDate);
+        double grossPay = getClassification().calculatePay(pc); // 총 임금
+        double deductions = getAffiliation().calculateDeductions(pc); // 공제
+        pc.details(grossPay, deductions);
+        getMethod().pay(pc);
+        return pc;
     }
 }

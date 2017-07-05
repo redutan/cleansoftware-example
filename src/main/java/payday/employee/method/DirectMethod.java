@@ -1,6 +1,7 @@
 package payday.employee.method;
 
 import lombok.*;
+import payday.Paycheck;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -20,4 +21,9 @@ public class DirectMethod extends AbstractPaymentMethod {
     private String bank;
     @NonNull
     private String account;
+
+    @Override
+    public void pay(Paycheck pc) {
+        pc.setField("Disposition", "Direct");
+    }
 }

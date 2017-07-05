@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import payday.Paycheck;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -18,4 +19,8 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class HoldMethod extends AbstractPaymentMethod {
+    @Override
+    public void pay(Paycheck pc) {
+        pc.setField("Disposition", "Hold");
+    }
 }

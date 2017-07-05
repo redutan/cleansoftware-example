@@ -1,6 +1,7 @@
 package payday.employee.classification;
 
 import lombok.*;
+import payday.Paycheck;
 
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
@@ -39,5 +40,11 @@ public class CommissionedClassification extends AbstractPaymentClassification {
 
     public void addSalesReceipt(@NonNull SalesReceipt salesReceipt) {
         getSalesReceipts().add(salesReceipt);
+    }
+
+    @Override
+    public double calculatePay(Paycheck pc) {
+        // TODO
+        return 0;
     }
 }

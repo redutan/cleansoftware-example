@@ -1,6 +1,7 @@
 package payday.employee.classification;
 
 import lombok.*;
+import payday.Paycheck;
 
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
@@ -40,5 +41,11 @@ public class HourlyClassification extends AbstractPaymentClassification {
 
     public void addTimeCard(@NonNull TimeCard timeCard) {
         getTimeCards().add(timeCard);
+    }
+
+    @Override
+    public double calculatePay(Paycheck pc) {
+        // TODO
+        return 0;
     }
 }

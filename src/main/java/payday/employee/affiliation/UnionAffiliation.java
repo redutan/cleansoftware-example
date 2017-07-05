@@ -1,6 +1,7 @@
 package payday.employee.affiliation;
 
 import lombok.*;
+import payday.Paycheck;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -33,5 +34,11 @@ public class UnionAffiliation extends AbstractAffiliation {
 
     public void addServiceCharge(@NonNull ServiceCharge serviceCharge) {
         getServiceCharges().add(serviceCharge);
+    }
+
+    @Override
+    public double calculateDeductions(Paycheck pc) {
+        // TODO
+        return 0;
     }
 }

@@ -1,6 +1,7 @@
 package payday.employee.method;
 
 import lombok.*;
+import payday.Paycheck;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -18,4 +19,9 @@ import javax.persistence.Entity;
 public class MailMethod extends AbstractPaymentMethod {
     @NonNull
     private String address;
+
+    @Override
+    public void pay(Paycheck pc) {
+        pc.setField("Disposition", "Mail");
+    }
 }
