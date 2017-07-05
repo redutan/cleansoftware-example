@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import payday.PaydayApplication;
 import payday.employee.Employee;
 import payday.employee.EmployeeRepository;
-import payday.employee.affiliation.UnionAffiliation;
+import payday.employee.affiliation.AbstractAffiliation;
 import payday.employee.command.AddHourlyEmployee;
 
 import static org.hamcrest.Matchers.is;
@@ -22,30 +22,27 @@ import static org.junit.Assert.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = PaydayApplication.class)
 @Transactional
-public class ChangeAffiliatedTransactionTest {
+public class ChangeUnaffiliatedTransactionTest {
 
     @Autowired
     private EmployeeRepository employeeRepository;
 
     @Test
-    public void testChangeAffiliatedTransaction() throws Exception {
+    public void testChangeUnaffiliatedTransaction() throws Exception {
         // given
         final Integer empId = 2;
         AddHourlyEmployee t = new AddHourlyEmployee(empId, "Bill", "home", 15.25);
         t.execute();
         // when
-        final double dues = 99.42;
-        ChangeAffiliatedTransaction cat = new ChangeAffiliatedTransaction(empId, dues);
-        cat.execute();
+        ChangeUnaffiliatedTransaction cut = new ChangeUnaffiliatedTransaction(empId);
+        cut.execute();
         // then
         Employee e = employeeRepository.findOne(empId);
-        assertEmployee(e, dues);
+        assertEmployee(e);
     }
 
-    private void assertEmployee(Employee e, double dues) {
+    private void assertEmployee(Employee e) {
         assertThat(e, is(notNullValue()));
-        UnionAffiliation ua = e.getAffiliation(UnionAffiliation.class);
-        assertThat(ua, is(notNullValue()));
-        assertThat(ua.getDues(), is(dues));
+        assertThat(e.getAffiliation(), is(AbstractAffiliation.NONE));
     }
 }
