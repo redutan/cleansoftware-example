@@ -26,7 +26,7 @@ public class ChangeCommissionedTransactionTest {
     private EmployeeRepository employeeRepository;
 
     @Test
-    public void testCnahgeCommissionedTransaction() throws Exception {
+    public void testChangeCommissionedTransaction() throws Exception {
         // given
         final Integer empId = 4;
         AddHourlyEmployee t = new AddHourlyEmployee(empId, "Lance", "Home", 25.32);

@@ -34,6 +34,7 @@ public class Employee {
     @Setter
     @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
     private AbstractPaymentSchedule schedule;
+    @Setter
     @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
     private AbstractPaymentMethod method;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
