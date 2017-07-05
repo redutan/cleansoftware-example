@@ -9,7 +9,7 @@ import payday.employee.affiliation.UnionAffiliation;
 public class ChangeAffiliatedTransaction extends ChangeAffiliationTransaction {
     private final double dues;
 
-    ChangeAffiliatedTransaction(Integer empId, double dues) {
+    public ChangeAffiliatedTransaction(Integer empId, double dues) {
         super(empId);
         this.dues = dues;
     }

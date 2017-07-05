@@ -8,9 +8,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 
 /**
  * @author myeongju.jung
@@ -54,28 +52,13 @@ public class HourlyClassification extends AbstractPaymentClassification {
     @Override
     public double calculatePay(Paycheck pc) {
         double totalPay = 0.0;
-        Date payPeriod = pc.getPayDate();
         for (TimeCard timeCard : getTimeCards()) {
-            if (!isInPayPeriod(timeCard.getDate(), payPeriod)) {
+            if (!isInPayPeriod(timeCard.getDate(), pc)) {
                 continue;
             }
             totalPay += calculatePayForTimeCard(timeCard);
         }
         return totalPay;
-    }
-
-    private boolean isInPayPeriod(Date timeCardDate, Date payPeriod) {
-        Calendar endCalendar = toCalendar(payPeriod);
-        Calendar startCalendar = toCalendar(payPeriod);
-        startCalendar.add(Calendar.DATE, -5); // 5일 내 (월 ~ 금)
-        Calendar timeCardCalendar = toCalendar(timeCardDate);
-        return timeCardCalendar.compareTo(startCalendar) >= 0 && timeCardCalendar.compareTo(endCalendar) <= 0;
-    }
-
-    private Calendar toCalendar(Date payPeriod) {
-        Calendar result = Calendar.getInstance();
-        result.setTime(payPeriod);
-        return result;
     }
 
     private double calculatePayForTimeCard(TimeCard timeCard) {

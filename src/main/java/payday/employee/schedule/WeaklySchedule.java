@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import payday.utils.DateUtils;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -30,5 +31,12 @@ public class WeaklySchedule extends AbstractPaymentSchedule {
         payCalendar.setTime(payDate);
         int dayOfWeek = payCalendar.get(Calendar.DAY_OF_WEEK);
         return dayOfWeek == Calendar.FRIDAY;
+    }
+
+    @Override
+    public Date getPayPeriodStartDate(Date payPeriodEndDate) {
+        Calendar result = DateUtils.toCalendar(payPeriodEndDate);
+        result.add(Calendar.DATE, -6);
+        return result.getTime();
     }
 }

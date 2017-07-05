@@ -86,11 +86,15 @@ public class Employee {
     }
 
     public Paycheck payday(@NonNull Date payDate) {
-        Paycheck pc = new Paycheck(payDate);
+        Paycheck pc = new Paycheck(getPayPeriodStartDate(payDate), payDate);
         double grossPay = getClassification().calculatePay(pc); // 총 임금
         double deductions = getAffiliation().calculateDeductions(pc); // 공제
         pc.details(grossPay, deductions);
         getMethod().pay(pc);
         return pc;
+    }
+
+    private Date getPayPeriodStartDate(Date payPeriodEndDate) {
+        return getSchedule().getPayPeriodStartDate(payPeriodEndDate);
     }
 }

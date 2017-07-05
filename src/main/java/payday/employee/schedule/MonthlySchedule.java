@@ -1,6 +1,7 @@
 package payday.employee.schedule;
 
 import lombok.*;
+import payday.utils.DateUtils;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -29,5 +30,12 @@ public class MonthlySchedule extends AbstractPaymentSchedule {
         payCalendar.add(Calendar.DATE, 1);
         int monthByAdded1Day = payCalendar.get(Calendar.MONTH);
         return month != monthByAdded1Day;
+    }
+
+    @Override
+    public Date getPayPeriodStartDate(Date payPeriodEndDate) {
+        Calendar result = DateUtils.toCalendar(payPeriodEndDate);
+        result.set(Calendar.DAY_OF_MONTH, 1);
+        return result.getTime();
     }
 }
