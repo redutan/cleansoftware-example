@@ -10,8 +10,7 @@ import payday.employee.command.AddSalariedEmployee;
 import java.util.Calendar;
 import java.util.Date;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -45,5 +44,19 @@ public class PaydayTransactionTest {
         Calendar payCalendar = Calendar.getInstance();
         payCalendar.set(year, month, date);
         return payCalendar.getTime();
+    }
+
+    @Test
+    public void testPaySingleSalariedEmployeeOnWrongDate() throws Exception {
+        final Integer empId = 1;
+        final double salary = 1000.00;
+        new AddSalariedEmployee(empId, "Bob", "Home", salary).execute();
+        Date payDate = getDate(2001, Calendar.NOVEMBER, 29);
+        // when
+        PaydayTransaction pt = new PaydayTransaction(payDate);
+        pt.execute();
+        // then
+        Paycheck pc = pt.getPaycheck(empId);
+        assertThat(pc, is(nullValue()));
     }
 }
