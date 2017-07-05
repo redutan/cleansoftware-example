@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.Date;
 
 /**
  * @author myeongju.jung
@@ -21,5 +22,9 @@ public class TimeCard {
 
     public boolean equalsTimeMillis(Long timeMillis) {
         return this.timeMillis != null && this.timeMillis.equals(timeMillis);
+    }
+
+    public Date getDate() {
+        return new Date(timeMillis);
     }
 }

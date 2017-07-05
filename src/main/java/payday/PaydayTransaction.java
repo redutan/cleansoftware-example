@@ -1,5 +1,6 @@
 package payday;
 
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import payday.employee.Employee;
@@ -38,7 +39,7 @@ public class PaydayTransaction implements Transaction {
         }
     }
 
-    public Paycheck getPaycheck(Integer empId) {
+    public Paycheck getPaycheck(@NonNull Integer empId) {
         return paychecks.get(empId);
     }
 }

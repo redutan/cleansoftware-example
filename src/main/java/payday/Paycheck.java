@@ -24,8 +24,8 @@ public class Paycheck {
     private final Date payDate;
     private final Map<String, String> fields = new HashMap<>();
 
-    public Paycheck(Date payDate) {
-        this.payDate = payDate;
+    public Paycheck(@NonNull Date payDate) {
+        this.payDate = (Date) payDate.clone();
     }
 
     public String getField(@NonNull String key) {
@@ -34,6 +34,10 @@ public class Paycheck {
 
     public void setField(@NonNull String key, String value) {
         fields.put(key, value);
+    }
+
+    public Date getPayDate() {
+        return (Date) payDate.clone();
     }
 
     public void details(double grossPay, double deductions) {
