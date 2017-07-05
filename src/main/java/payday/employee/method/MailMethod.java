@@ -9,15 +9,13 @@ import javax.persistence.Entity;
  * @author myeongju.jung
  */
 @Entity
-@DiscriminatorValue("D")
+@DiscriminatorValue("M")
 @Getter
 @ToString
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class DirectMethod extends AbstractPaymentMethod {
+public class MailMethod extends AbstractPaymentMethod {
     @NonNull
-    private String bank;
-    @NonNull
-    private String account;
+    private String address;
 }
