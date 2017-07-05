@@ -10,7 +10,7 @@ import payday.PaydayApplication;
 import payday.employee.Employee;
 import payday.employee.EmployeeRepository;
 import payday.employee.command.AddSalariedEmployee;
-import payday.employee.method.MailMethod;
+import payday.employee.method.HoldMethod;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -22,29 +22,27 @@ import static org.junit.Assert.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = PaydayApplication.class)
 @Transactional
-public class ChangeMailTransactionTest {
+public class ChangeHoldTransactionTest {
     @Autowired
     private EmployeeRepository employeeRepository;
 
     @Test
-    public void testChangeMailTransaction() throws Exception {
+    public void testChangeHoldTransaction() throws Exception {
         // given
-        final Integer empId = 8;
+        final Integer empId = 9;
         AddSalariedEmployee t = new AddSalariedEmployee(empId, "Bob", "Home", 5000.00);
         t.execute();
-        final String address = "address@domain.com";
         // when
-        ChangeMailTransaction cmt = new ChangeMailTransaction(empId, address);
+        ChangeHoldTransaction cmt = new ChangeHoldTransaction(empId);
         cmt.execute();
         // then
         Employee e = employeeRepository.findOne(empId);
-        assertEmployee(e, address);
+        assertEmployee(e);
     }
 
-    private void assertEmployee(Employee e, String address) {
+    private void assertEmployee(Employee e) {
         assertThat(e, is(notNullValue()));
-        MailMethod dm = e.getMethod(MailMethod.class);
-        assertThat(dm, is(notNullValue()));
-        assertThat(dm.getAddress(), is(address));
+        HoldMethod hm = e.getMethod(HoldMethod.class);
+        assertThat(hm, is(notNullValue()));
     }
 }
